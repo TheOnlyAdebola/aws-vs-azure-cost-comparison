@@ -1,0 +1,69 @@
+# AWS vs Azure Cost Comparison: Small Web Application
+
+## 1. Project Overview
+This project compares hosting costs for a small web application on AWS and Azure. The goal is to understand cloud economics, pricing models, and cost drivers like compute, storage, and data transfer.
+
+## 2. Application Specifications
+| **Resource** | **Requirement** |
+| --- | --- |
+| **Compute** | 2 vCPU, 2 GB RAM |
+| **Storage** | 32 GB SSD |
+| **Data Transfer** | 100 GB/month Internet Egress |
+
+## 3. Cost Breakdown
+
+### AWS Estimate
+| **Service** | **Config** | **Monthly Cost** |
+| --- | --- | --- |
+| **EC2** | t3.small Linux, 2 vCPU 2GB | ~$15.18 |
+| **EBS** | 32 GB gp3 SSD | ~$2.56 |
+| **Data Transfer** | 100 GB Internet Egress | ~$9.00 |
+| **Total** | | **~$26.74** |
+
+File: `aws-estimate.xlsx`
+
+### Azure Linux Estimate
+| **Service** | **Config** | **Monthly Cost** |
+| --- | --- | --- |
+| **VM** | B2s: 2 vCPU, 4 GB RAM, Linux | $32.12 |
+| **Disk** | 32 GB Premium SSD P4 | $5.28 |
+| **Bandwidth** | 100 GB Internet Egress | $8.70 |
+| **Total** | | **$46.24** |
+
+File: `azure-linux-estimate.xlsx`
+
+### Azure Windows + Hybrid Benefit Estimate
+| **Service** | **Config** | **Monthly Cost** |
+| --- | --- | --- |
+| **VM** | B1ms: 1 vCPU, 2 GB RAM, Windows | $15.11 |
+| **OS License** | Azure Hybrid Benefit | $0.00 |
+| **Disk** | 32 GB Premium SSD P4 | $5.28 |
+| **Bandwidth** | 100 GB Internet Egress | $4.75 |
+| **Total** | | **$25.14** |
+
+File: `azure-windows-hybrid-estimate.xlsx`
+
+## 4. Inter-Zone Networking Costs
+Both AWS and Azure charge $0.01/GB for data transfer between Availability Zones. For 100 GB/month, cost = **$1.00** on both platforms.
+
+## 5. Discount Mechanisms
+| **Provider** | **Program** | **Discount** | **Flexibility** |
+| --- | --- | --- | --- |
+| **AWS** | Savings Plans | Up to 72% | Applies across instance families/regions |
+| **Azure** | Reserved Instances | Up to 72% | Locked to specific VM family + region |
+
+## 6. Conclusion & Cost-Optimization Strategies
+**Most cost-effective for Linux**: AWS at ~$26.74/mo vs Azure at $46.24/mo. Azure has no 2 vCPU + 2 GB option; B2s includes extra RAM. 
+
+**Most cost-effective for Windows**: Azure with Hybrid Benefit at $25.14/mo. Hybrid Benefit removes Windows license cost, saving ~40%.
+
+**Two optimization strategies**:
+1. **Right-size instances**: Use B1ms/B1s in Azure to match RAM, or t3.small in AWS, instead of over-provisioning.
+2. **Commitment discounts**: Use 1-year Savings Plans or Reserved Instances to save ~30-40% for production workloads.
+
+## 7. Files Included
+- `aws-estimate.xlsx`: AWS Pricing Calculator export
+- `azure-linux-estimate.xlsx`: Azure Linux VM estimate  
+- `azure-windows-hybrid-estimate.xlsx`: Azure Windows + Hybrid Benefit estimate
+- `/screenshots/`: Calculator screenshots
+- `summary.txt`: 300-word business context justification
