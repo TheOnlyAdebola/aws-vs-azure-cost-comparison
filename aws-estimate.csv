@@ -1,0 +1,14 @@
+﻿Estimate summary
+Upfront cost,Monthly cost,Total 12 months cost,Currency
+0,17.97,215.64,USD
+,,* Includes upfront cost
+
+
+Detailed Estimate
+Group hierarchy,Region,Description,Service,Upfront,Monthly,First 12 months total,Currency,Status,Configuration summary
+My Estimate,US East (N. Virginia),Data Transfer,Amazon EC2 ,0,17.97,215.64,USD,,"Tenancy (Shared Instances), Operating system (Linux), Workload (Consistent, Number of instances: 1), Advance EC2 instance (t3.small), Pricing strategy ( 3yr  No Upfront), Enable monitoring (disabled), EBS Storage amount (30 GB), DT Inbound: Internet (10 GB per month), DT Inbound: Not selected (0 TB per month), DT Outbound: Internet (100 GB per month), DT Outbound: Not selected (0 GB per month), DT Intra-Region: (0 TB per month)"
+
+
+
+Acknowledgement
+"* AWS Pricing Calculator provides only an estimate of your AWS fees and doesn't include any taxes that might apply. Your actual fees depend on a variety of factors, including your actual usage of AWS services."
