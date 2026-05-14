@@ -3,52 +3,66 @@ Cloud economics project comparing AWS and Azure hosting costs
 
 ## 1. AWS Linux Estimate
 - **Instance**: t3.small, 2 vCPU, 2 GB RAM
-- **Storage**: 32 GB gp3 EBS 
+- **Storage**: 32 GB gp3 EBS
 - **Data Transfer**: 100 GB Internet Egress
-- **Total**: **~$26.74/month**
+- **Total**: **$29.53/month**
 
-File: `aws-estimate.csv`
+File: `aws-estimate.csv`  
+Screenshot: `screenshots/aws-t3small.png`
 
-## 2. Azure Linux VM Estimate  
-- **Instance**: B2s, 2 vCPU, 4 GB RAM 
+## 2. Azure Linux VM Estimate
+- **Instance**: B2s, 2 vCPU, 4 GB RAM
 - **Storage**: 32 GB Standard SSD
 - **Data Transfer**: 100 GB Internet Egress
 - **Total**: **$46.24/month**
 
-File: `azure-linux-estimate.xlsx`
+File: `azure-linux-estimate.xlsx`  
+Screenshot: `screenshots/azure-linux-b2s.png`
 
 ## 3. Azure Windows + Hybrid Benefit
 | Component | Detail | Cost |
 | --- | --- | --- |
-| **VM** | B1ms 1 vCPU, 2 GB RAM | $20.39 |
-| **OS** | Windows Server w/ Hybrid Benefit | $0.00 |
-| **Storage** | 32 GB Standard SSD | $0.00 |
-| **Bandwidth** | 100 GB Internet Egress | $4.75 |
-| **Total** | | **$25.14** |
+| **Instance** | B1ms, 1 vCPU, 2 GB RAM + Azure Hybrid Benefit | ~$9.27 |
+| **Storage** | 32 GB Standard SSD | ~$2.40 |
+| **Data Transfer** | 100 GB Internet Egress | ~$13.47 |
+| **Total** | | **~$25.14/month** |
 
-File: `azure-windows-hybrid-estimate.xlsx`
+File: `azure-windows-hybrid-estimate.xlsx`  
+Screenshot: `screenshots/azure-windows-hybrid.png`
 
-## 4. Inter-Zone Networking Costs
-Both AWS and Azure charge $0.01/GB for data transfer between Availability Zones. For 100 GB/month, cost = **$1.00**
+## 4. Inter-Zone Data Transfer Costs
+
+Networking fees for traffic between availability zones/regions:
+
+| Provider | Same Region, Inter-Zone | Cross-Region |
+| --- | --- | --- |
+| **AWS** | $0.01 per GB | $0.02 per GB |
+| **Azure** | $0.02 per GB | $0.02 per GB |
+
+**Impact**: For 100GB of inter-zone traffic monthly, AWS costs $1.00 vs Azure $2.00. AWS is 50% cheaper for multi-AZ architectures within a region.
 
 ## 5. Discount Mechanisms
-| **Provider** | **Program** | **Discount** | **Flexibility** |
+
+### AWS Savings Plans
+- **Commitment**: 1 or 3 year term, hourly spend commitment
+- **Discount**: Up to 72% off On-Demand pricing  
+- **Flexibility**: Applies across EC2 instance families, regions, and to Lambda/Fargate
+
+### Azure Reserved Instances + Hybrid Benefit
+- **Reserved Instances**: 1 or 3 year term for specific VM size, up to 72% off
+- **Azure Hybrid Benefit**: Use existing Windows Server licenses to save up to 40% on OS costs
+- **Combined**: RI + AHUB can cut Windows VM costs by 80%+ vs pay-as-you-go
+
+## 6. Cost Comparison Summary
+
+| Scenario | Winner | Monthly Cost | Key Reason |
 | --- | --- | --- | --- |
-| **AWS** | Savings Plans | Up to 72% | Applies across instance families/regions |
-| **Azure** | Reserved Instances | Up to 72% | Locked to specific VM family + region |
+| **Linux Workload** | **AWS** | $29.53 vs $46.24 | t3.small is 36% cheaper, AWS egress fees lower |
+| **Windows Workload** | **Azure** | $25.14 vs $29.53+ | Hybrid Benefit eliminates Windows license fees |
+| **Multi-AZ Architecture** | **AWS** | $1/100GB vs $2/100GB | Cheaper inter-zone data transfer |
 
-## 6. Conclusion & Cost-Optimization Strategies
-**Most cost-effective for Linux**: AWS at ~$26.74/mo vs Azure at $46.24/mo. Azure has no 2 vCPU + 2 GB option; B2s includes 4GB RAM.
+## 7. Cost-Optimization Strategies
 
-**Most cost-effective for Windows**: Azure with Hybrid Benefit at $25.14/mo. Hybrid Benefit removes Windows license cost.
+1. **Use ARM/Graviton processors**: Migrate from x86 to AWS Graviton3 `t4g.small` or Azure Ampere Altra `B2ps_v2`. ARM instances are 20-40% cheaper than equivalent x86 for web workloads with same performance.
 
-**Two optimization strategies**:
-1. **Right-size instances**: Use B1ms/B1s in Azure to match RAM, or t3.small in AWS, instead of over-provisioning.
-2. **Commitment discounts**: Use 1-year Savings Plans or Reserved Instances to save ~30-40% for production workloads.
-
-## Files Included
-- `aws-estimate.csv`: AWS t3.small estimate
-- `azure-linux-estimate.xlsx`: Azure B2s Linux estimate
-- `azure-windows-hybrid-estimate.xlsx`: Azure Windows + Hybrid Benefit estimate
-- `summary.txt`: 300-word business justification
-- `/screenshots/`: Calculator screenshots
+2. **Leverage 1-year commitment discounts**: For steady-state production workloads, use AWS Compute Savings Plans or Azure Reserved Instances. Saves 40-60% vs pay-as-you-go. For Windows workloads, always combine Azure RI with Hybrid Benefit for maximum savings.
