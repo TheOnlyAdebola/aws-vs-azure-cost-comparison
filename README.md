@@ -1,2 +1,54 @@
 # aws-vs-azure-cost-comparison
 Cloud economics project comparing AWS and Azure hosting costs
+
+## 1. AWS Linux Estimate
+- **Instance**: t3.small, 2 vCPU, 2 GB RAM
+- **Storage**: 32 GB gp3 EBS 
+- **Data Transfer**: 100 GB Internet Egress
+- **Total**: **~$26.74/month**
+
+File: `aws-estimate.csv`
+
+## 2. Azure Linux VM Estimate  
+- **Instance**: B2s, 2 vCPU, 4 GB RAM 
+- **Storage**: 32 GB Standard SSD
+- **Data Transfer**: 100 GB Internet Egress
+- **Total**: **$46.24/month**
+
+File: `azure-linux-estimate.xlsx`
+
+## 3. Azure Windows + Hybrid Benefit
+| Component | Detail | Cost |
+| --- | --- | --- |
+| **VM** | B1ms 1 vCPU, 2 GB RAM | $20.39 |
+| **OS** | Windows Server w/ Hybrid Benefit | $0.00 |
+| **Storage** | 32 GB Standard SSD | $0.00 |
+| **Bandwidth** | 100 GB Internet Egress | $4.75 |
+| **Total** | | **$25.14** |
+
+File: `azure-windows-hybrid-estimate.xlsx`
+
+## 4. Inter-Zone Networking Costs
+Both AWS and Azure charge $0.01/GB for data transfer between Availability Zones. For 100 GB/month, cost = **$1.00**
+
+## 5. Discount Mechanisms
+| **Provider** | **Program** | **Discount** | **Flexibility** |
+| --- | --- | --- | --- |
+| **AWS** | Savings Plans | Up to 72% | Applies across instance families/regions |
+| **Azure** | Reserved Instances | Up to 72% | Locked to specific VM family + region |
+
+## 6. Conclusion & Cost-Optimization Strategies
+**Most cost-effective for Linux**: AWS at ~$26.74/mo vs Azure at $46.24/mo. Azure has no 2 vCPU + 2 GB option; B2s includes 4GB RAM.
+
+**Most cost-effective for Windows**: Azure with Hybrid Benefit at $25.14/mo. Hybrid Benefit removes Windows license cost.
+
+**Two optimization strategies**:
+1. **Right-size instances**: Use B1ms/B1s in Azure to match RAM, or t3.small in AWS, instead of over-provisioning.
+2. **Commitment discounts**: Use 1-year Savings Plans or Reserved Instances to save ~30-40% for production workloads.
+
+## Files Included
+- `aws-estimate.csv`: AWS t3.small estimate
+- `azure-linux-estimate.xlsx`: Azure B2s Linux estimate
+- `azure-windows-hybrid-estimate.xlsx`: Azure Windows + Hybrid Benefit estimate
+- `summary.txt`: 300-word business justification
+- `/screenshots/`: Calculator screenshots
