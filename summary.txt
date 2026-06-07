@@ -1,5 +1,42 @@
-   AWS t3.small Linux: $XX.XX/month
-   Azure B2s Linux: $57.91/month* 
-   Azure B2s Windows + Hybrid Benefit: $32.77/month*
-   *Azure Calculator bug: 100GB Internet Egress configured but shows $0.00. 
-   Expected cost with bandwidth: Linux ~$71.38, Windows ~$46.24
+AWS vs Azure Cost Comparison - Provider Justification Summary
+
+After conducting a comprehensive cost analysis across three core cloud services 
+(Compute, Storage, and Database), AWS emerges as the more cost-effective platform 
+for a Linux-based small web application.
+
+COST BREAKDOWN:
+- AWS Total: $51.80/month ($621.60/year)
+- Azure Total: $72.60/month ($871.20/year)
+- AWS saves $20.80/month or $249.60/year
+
+SERVICE COMPARISON:
+Compute: AWS EC2 t3.small costs $17.74/month vs Azure B2s at $65.62/month. 
+AWS is significantly cheaper for Linux workloads.
+
+Storage: Azure Blob Storage at $2.08/month beats AWS S3 at $10.15/month. 
+Azure wins on storage pricing.
+
+Database: Azure SQL Database Basic tier at $4.90/month is dramatically cheaper 
+than AWS RDS MySQL at $23.91/month. Azure wins on database pricing.
+
+WHEN TO CHOOSE AWS:
+For a Linux-based startup with no existing Microsoft infrastructure, AWS is the 
+clear winner. The compute savings alone ($47.88/year) justify the choice. AWS 
+also offers a more mature ecosystem for open-source technologies, better global 
+reach, and stronger support for DevOps tooling like CodePipeline and CodeDeploy.
+
+WHEN TO CHOOSE AZURE:
+For a Microsoft-centric enterprise already using Windows Server, Office 365, or 
+Active Directory, Azure is the better choice. The Azure Hybrid Benefit allows 
+companies to reuse existing Windows licenses, dramatically reducing VM costs from 
+$65.62 to approximately $32.77/month. Azure also integrates natively with tools 
+like Teams, SharePoint, and Microsoft Entra ID.
+
+COST OPTIMIZATION STRATEGIES:
+1. AWS Savings Plans (1-year commitment) reduce compute costs by up to 40%
+2. Azure Reserved Instances offer up to 42% discount on VMs
+3. Right-sizing instances based on actual usage can reduce costs by 20-30%
+
+CONCLUSION:
+AWS is recommended for this Linux-based web application due to lower overall 
+monthly costs and a stronger open-source ecosystem.
